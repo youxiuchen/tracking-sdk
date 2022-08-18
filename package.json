@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build":"rollup -c"
+    "build": "rollup -c"
   },
   "keywords": [],
   "author": "",
@@ -15,5 +15,8 @@
     "rollup-plugin-dts": "^4.2.2",
     "rollup-plugin-typescript2": "^0.32.1",
     "typescript": "^4.7.4"
+  },
+  "dependencies": {
+    "cors": "^2.8.5"
   }
 }
