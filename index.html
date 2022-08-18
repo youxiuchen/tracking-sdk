@@ -7,11 +7,15 @@
     <title>Document</title>
 </head>
 <body>
+    <button target-key="btn">按钮</button>
+    <button>无添加</button>
     <script src="./dist/index.js"></script>
     <script>
         new tracking({
             requestUrl: 'http://localhost:9000/tracker',
-            historyTracker:true
+            historyTracker:true,
+            domTracker:true,
+            jsError:true,
         })
     </script>
 </body>

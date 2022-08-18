@@ -1,6 +1,8 @@
 import {DefaultOptons,TrackerConfig,Options} from '../types/index'
 
 import {createHistoryEvent} from '../utils/pv'
+
+const MouseEventList: string[] = ['click', 'dblclick', 'contextmenu', 'mousedown', 'mouseup', 'mouseenter', 'mouseout', 'mouseover']
 export default class Tracking {
     public data:Options;
     constructor (options: Options){
@@ -34,6 +36,55 @@ export default class Tracking {
         this.reportTracker(data)
     }
 
+    // dom监听事件
+
+    private targetKeyReport(){
+        MouseEventList.forEach(ev =>{
+            window.addEventListener(ev,(e) =>{
+                const target = e.target as HTMLElement;
+                const targetKey = target.getAttribute('target-key');
+
+                if(targetKey){
+                    this.reportTracker({
+                        targetKey,
+                        event:ev,
+                    })
+                }
+            })
+        })
+    }
+
+
+    //js上报
+
+    private jsError(){
+        this.errorEvent()
+        this.promiseReject()
+    }
+
+    private errorEvent(){
+        window.addEventListener('error', (event) =>{
+            this.reportTracker({
+                event:"error",
+                targetKey:"message",
+                message:event.message
+            })
+        })
+
+    }
+
+    private promiseReject(){
+        window.addEventListener("unhandledrejection",(event)=>{
+            event.promise.catch(error=>{
+                this.reportTracker({
+                    event:"promise",
+                    targetKey:"message",
+                    message:error,
+                })
+            })
+        })
+    }
+
 
     // 自动上报
 
@@ -56,6 +107,12 @@ export default class Tracking {
         }
         if(this.data.hashTracker){
             this.captureEvents(['hashChange',],'hash-pv')
+        }
+        if(this.data.domTracker){
+            this.targetKeyReport()
+        }
+        if(this.data.jsError){
+            this.jsError()
         }
     }
 

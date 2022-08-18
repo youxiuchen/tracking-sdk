@@ -2,13 +2,16 @@
   "name": "tracking-sdk",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.esm.js",
+  "browser":"dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rollup -c"
   },
-  "keywords": [],
+  "keywords": ["前端Tracking","数据分析","数据采集"],
   "author": "",
+  "files":["dist"],
   "license": "ISC",
   "devDependencies": {
     "rollup": "^2.78.0",
